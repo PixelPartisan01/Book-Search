@@ -7,7 +7,7 @@
     tools:context=".Start">
 
     <EditText
-        android:id="@+id/editTextTextPersonName"
+        android:id="@+id/editText"
         android:layout_width="318dp"
         android:layout_height="85dp"
         android:layout_marginStart="44dp"
@@ -36,7 +36,7 @@
         android:layout_marginStart="164dp"
         android:layout_marginTop="124dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName">
+        app:layout_constraintTop_toBottomOf="@+id/editText">
 
         <RadioButton
             android:id="@+id/radioButtonKönyv"

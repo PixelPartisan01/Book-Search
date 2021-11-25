@@ -2,18 +2,17 @@ package com.example.isbn
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.ArrayAdapter
 import android.widget.TextView
-import com.google.gson.JsonObject
 import okhttp3.*
 import org.json.JSONObject
 import java.io.IOException
 import java.lang.StringBuilder
 
-
 class MainActivity : AppCompatActivity()
 {
     lateinit var textView: TextView
+    var Auth_Boo: String? = null
+    var Radio_Butt: String? = null
 
     private val client = OkHttpClient()
 
@@ -24,9 +23,12 @@ class MainActivity : AppCompatActivity()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        Auth_Boo = intent.getStringExtra("Auth_Boo")
+        Radio_Butt = intent.getStringExtra("Radio_Butt")
+
         textView = findViewById(R.id.textView)
 
-        run("https://moly.hu/api/books.json?q=%22Ernest Hemingway&key="+key)
+        run("https://moly.hu/api/books.json?q=%22" + Auth_Boo + "&key=" +key)
     }
 
     fun run(url: String)
@@ -49,11 +51,30 @@ class MainActivity : AppCompatActivity()
                 var arr = obj.getJSONArray("books")
                 val builder = StringBuilder()
 
-                for (i in 0 until arr.length())
+                if(Radio_Butt == "Könyv")
                 {
-                    var o = arr.getJSONObject(i)
+                    for (i in 0 until arr.length())
+                    {
+                        var o = arr.getJSONObject(i)
 
-                    builder.append(o.getString("title")).append('\n')
+                        if(o.getString("title") == Auth_Boo)
+                        {
+                            var str = "A \"" + Auth_Boo + "\" írója: "
+                            builder.append(str).append(o.getString("author")).append('\n')
+                        }
+                    }
+                }
+                else if (Radio_Butt == "Szerző")
+                {
+                    for (i in 0 until arr.length())
+                    {
+                        var o = arr.getJSONObject(i)
+
+                        if(o.getString("author") == Auth_Boo)
+                        {
+                            builder.append(o.getString("title")).append('\n')
+                        }
+                    }
                 }
 
                 textView.text = builder.toString()
