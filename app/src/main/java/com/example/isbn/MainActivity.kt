@@ -66,12 +66,19 @@ class MainActivity : AppCompatActivity()
                     {
                         var o = arr.getJSONObject(i)
 
-                        if(o.getString("title") == Auth_Boo)
+                        if(o.getString("author").isNotEmpty() && !(o.getString("author") in array_list))
+                        {
+                            array_list.add(o.getString("author"))
+                        }
+
+/*                        if(o.getString("title") == Auth_Boo)
                         {
                             //var str = "A \"" + Auth_Boo + "\" írója: "
                             //builder.append(str).append(o.getString("author")).append('\n')
-                        }
+
+                        }*/
                     }
+
                 }
                 else if (Radio_Butt == "Szerző")
                 {
@@ -96,6 +103,15 @@ class MainActivity : AppCompatActivity()
 
                 runOnUiThread{
                     lv.adapter = arrayAdapter
+
+                    if (Radio_Butt == "Szerző")
+                    {
+                        title = "$Auth_Boo könyvei"
+                    }
+                    else
+                    {
+                        title = "$Auth_Boo című könyvhöz kapocsolódó szerzők"
+                    }
                 }
 
 
