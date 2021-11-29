@@ -2,6 +2,8 @@ package com.example.isbn
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.ArrayAdapter
+import android.widget.ListView
 import android.widget.TextView
 import okhttp3.*
 import org.json.JSONObject
@@ -16,6 +18,8 @@ class MainActivity : AppCompatActivity()
 
     private val client = OkHttpClient()
 
+    lateinit var lv : ListView
+
     var key = "72b7ac6198d35bb4ae94b6f7eb6a9dfa"
 
     override fun onCreate(savedInstanceState: Bundle?)
@@ -26,7 +30,9 @@ class MainActivity : AppCompatActivity()
         Auth_Boo = intent.getStringExtra("Auth_Boo")
         Radio_Butt = intent.getStringExtra("Radio_Butt")
 
-        textView = findViewById(R.id.textView)
+        //textView = findViewById(R.id.textView)
+
+        lv = findViewById(R.id.listView)
 
         run("https://moly.hu/api/books.json?q=%22" + Auth_Boo + "&key=" +key)
     }
@@ -51,6 +57,9 @@ class MainActivity : AppCompatActivity()
                 var arr = obj.getJSONArray("books")
                 val builder = StringBuilder()
 
+                var array_list = ArrayList<String>()
+                val arrayAdapter: ArrayAdapter<*>
+
                 if(Radio_Butt == "Könyv")
                 {
                     for (i in 0 until arr.length())
@@ -59,8 +68,8 @@ class MainActivity : AppCompatActivity()
 
                         if(o.getString("title") == Auth_Boo)
                         {
-                            var str = "A \"" + Auth_Boo + "\" írója: "
-                            builder.append(str).append(o.getString("author")).append('\n')
+                            //var str = "A \"" + Auth_Boo + "\" írója: "
+                            //builder.append(str).append(o.getString("author")).append('\n')
                         }
                     }
                 }
@@ -72,13 +81,26 @@ class MainActivity : AppCompatActivity()
 
                         if(o.getString("author") == Auth_Boo)
                         {
-                            builder.append(o.getString("title")).append('\n')
+                            //builder.append(o.getString("title")).append('\n')
+                            array_list.add(o.getString("title"))
                         }
                     }
                 }
 
-                textView.text = builder.toString()
+                arrayAdapter = ArrayAdapter(
+                    this@MainActivity,
+                    android.R.layout.simple_list_item_1,
+                    array_list
+                )
 
+
+                runOnUiThread{
+                    lv.adapter = arrayAdapter
+                }
+
+
+
+                //textView.text = builder.toString()
             }
 
         })
