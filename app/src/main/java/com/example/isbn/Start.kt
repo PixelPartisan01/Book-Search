@@ -14,10 +14,14 @@ class Start : AppCompatActivity()
     lateinit var radioButton: RadioButton
     lateinit var editText: EditText
 
+
+
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_start)
+
+        title = "Könyv vagy Szerző?"
 
         button = findViewById(R.id.button2)
 

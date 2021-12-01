@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.ListView
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
 import okhttp3.*
 import org.json.JSONObject
 import java.io.IOException
@@ -15,6 +17,8 @@ class MainActivity : AppCompatActivity()
     lateinit var textView: TextView
     var Auth_Boo: String? = null
     var Radio_Butt: String? = null
+
+    lateinit var holder : RecyclerView.ViewHolder
 
     private val client = OkHttpClient()
 
@@ -33,6 +37,7 @@ class MainActivity : AppCompatActivity()
         //textView = findViewById(R.id.textView)
 
         lv = findViewById(R.id.listView)
+
 
         run("https://moly.hu/api/books.json?q=%22" + Auth_Boo + "&key=" +key)
     }
@@ -90,6 +95,26 @@ class MainActivity : AppCompatActivity()
                         {
                             //builder.append(o.getString("title")).append('\n')
                             array_list.add(o.getString("title"))
+
+                            /*val request = Request.Builder()
+                                .url("https://moly.hu/api/book/" + o.getString("id") +".json?key=72b7ac6198d35bb4ae94b6f7eb6a9dfa")
+                                .build()
+
+                            client.newCall(request).enqueue(object : Callback
+                            {
+                                override fun onFailure(call: Call, e: IOException) {
+
+                                }
+
+                                override fun onResponse(call: Call, response: Response) {
+                                   var cover =  o.getString("cover")
+
+                                    Picasso.with(this@MainActivity)
+                                        .load(cover)
+                                }
+
+                            })*/
+
                         }
                     }
                 }
